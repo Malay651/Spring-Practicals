@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rays.dto.UserDTO;
@@ -13,6 +14,8 @@ import com.rays.dto.UserDTO;
 @Repository
 public class UserDAOHibImpl implements UserDAOInt {
 
+	
+	@Autowired
     SessionFactory sessionFactory = null;
 	
 	public long add(UserDTO dto) {
@@ -34,7 +37,7 @@ public class UserDAOHibImpl implements UserDAOInt {
 		UserDTO dto = null;
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(UserDTO.class);
-		criteria.add(Restrictions.eq("login", "login"));
+		criteria.add(Restrictions.eq("login", login));
 		
 		List list = criteria.list();
 		
@@ -45,22 +48,7 @@ public class UserDAOHibImpl implements UserDAOInt {
 		return dto;
 	}
 
-	public UserDTO Authenticate(String login, String password) {
-		UserDTO dto = null;
-		Session session = sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(UserDTO.class);
-		criteria.add(Restrictions.eq("login", "password"));
-	
-		
-	   List list = criteria.list();
-	   
-	   if(list.size() == 1) {
-		   dto = (UserDTO) list.get(0);
-	   }
-		return dto;
-	}
-
-	public List search(UserDTO dto) {
+		public List search(UserDTO dto) {
 		// TODO Auto-generated method stub
 		return search (dto,0,0);
 	}
@@ -104,6 +92,24 @@ public class UserDAOHibImpl implements UserDAOInt {
 		// TODO Auto-generated method stub
 		UserDTO dto = findbypk(id);
 		sessionFactory.getCurrentSession().delete(dto);
+	
+	}
+
+	public UserDTO authenticate(String login, String password) {
+		// TODO Auto-generated method stub
+		UserDTO dto = null;
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(UserDTO.class);
+		criteria.add(Restrictions.eq("login", login));
+		criteria.add(Restrictions.eq("password", password));
+	    
+		
+	   List list = criteria.list();
+	   
+	   if(list.size() == 1) {
+		   dto = (UserDTO) list.get(0);
+	   }
+		return dto;
 	
 	}
 

@@ -10,7 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Repository;
 
 @Entity
-@Table (name = "UserDTO")
+@Table (name = "st_user")
 public class UserDTO {
 
 	@Id

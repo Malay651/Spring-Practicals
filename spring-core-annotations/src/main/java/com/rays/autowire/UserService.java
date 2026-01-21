@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
 	@Autowired
-	private UserDAOInt userdao;
+	private UserDAOInt userDao;
 	
 	public void testAdd() {
 		
-		userdao.add();
+		userDao.add();
 	}
 	
 }

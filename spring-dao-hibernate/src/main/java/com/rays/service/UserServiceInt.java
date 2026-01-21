@@ -16,6 +16,7 @@ public interface UserServiceInt {
 	  
 	  public UserDTO findbylogin(String login);
 	    
+	  public UserDTO authenticate(String login , String password);
 	    public List<UserDTO> search(UserDTO dto, int pageNo, int pageSize);
 		
 }

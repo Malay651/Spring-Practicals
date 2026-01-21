@@ -53,4 +53,8 @@ public class UserServiceImpl implements UserServiceInt {
 		 return dao.search(dto, pageNo, pageSize);
 	 }
 	 
+	 @Transactional(readOnly = true)
+	 public UserDTO authenticate(String login , String password) {
+		return dao.authenticate(login, password);
+	}
 }

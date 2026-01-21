@@ -24,12 +24,12 @@ public class TestUserService {
 		TestUserService test = (TestUserService) context.getBean("testUserService");
 
 	//	test.testAdd();
-   //	test.testUpdate();
-    // 	test.testFindByPk();
-      	test.testDelete();
+      //	test.testUpdate();
+     //	test.testFindByPk();
+      //	test.testDelete();
      //	test.testFindByLogin();
      //  test.testSearch();
-
+         test.testauthenticate();
 	}
 
 
@@ -67,9 +67,9 @@ public class TestUserService {
 
 	public void testAdd() {
 		UserDTO dto = new UserDTO();
-		dto.setFirstName("ankit");
-		dto.setLastName("gour");
-		dto.setLogin("ankit@gmail.com");
+		dto.setFirstName("ram");
+		dto.setLastName("patel");
+		dto.setLogin("ram@gmail.com");
 		dto.setPassword("123");
 		long pk = service.add(dto);
 		System.out.println("PK----> " + pk);
@@ -78,20 +78,35 @@ public class TestUserService {
 	private void testUpdate() {
 		UserDTO dto = new UserDTO();
 		dto.setId(2);
-		dto.setFirstName("Kamal");
-		dto.setLastName("Yadav");
+		dto.setFirstName("sejal");
+		dto.setLastName("singh");
 		dto.setLogin("ram@gmail.com");
 		dto.setPassword("ram123");
 		service.update(dto);
 	}
 
 	private void testFindByPk() {
-		UserDTO dto = service.findbypk(1);
+		UserDTO dto = service.findbypk(2);
 		System.out.println(dto.getId());
 		System.out.println(dto.getFirstName());
 	}
 
 	private void testDelete() {
-		service.delete(3);
+		service.delete(5);
 	}
+	
+	private void testauthenticate() {
+		UserDTO dto = new UserDTO();
+		dto = service.authenticate("harsh@gmail.com" , "123");
+		if (dto != null) {
+			
+			System.out.println(dto.getLogin());
+			System.out.println(dto.getPassword());
+		} else {
+			System.out.println("user not found");
+		}
+
+	}
+
+
 }

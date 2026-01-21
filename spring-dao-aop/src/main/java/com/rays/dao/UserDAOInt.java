@@ -17,7 +17,7 @@ public interface UserDAOInt {
 	
 	public UserDTO findbylogin(String login);
 		
-	public UserDTO Authenticate(String login , String password);
+	public UserDTO authenticate(String login , String password);
 	
 	public List search(UserDTO dto);
 	
