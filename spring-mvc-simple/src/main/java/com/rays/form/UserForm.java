@@ -1,15 +1,31 @@
 package com.rays.form;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class UserForm {
 
 	protected long id = 0;
-	private String firstName;
-	private String lastName;
-	private String login;
-	private String password;
-	private String dob;
-	private String address;
+
+	private long[] ids;
 	
+    @NotEmpty(message = "first name is required")
+	private String firstName;
+    
+    @NotEmpty(message = "last name is required")
+	private String lastName;
+    
+    @NotEmpty(message = "login is required")
+	private String login;
+    
+    @NotEmpty(message = "password is required")
+	private String password;
+    
+    @NotEmpty(message = "dob is required")
+	private String dob;
+    
+    @NotEmpty(message = "address is required")
+	private String address;
+
 	private int pageNo;
 
 	public long getId() {
@@ -75,6 +91,13 @@ public class UserForm {
 	public void setPageNo(int pageNo) {
 		this.pageNo = pageNo;
 	}
-	
-	
+
+	public long[] getIds() {
+		return ids;
+	}
+
+	public void setIds(long[] ids) {
+		this.ids = ids;
+	}
+
 }

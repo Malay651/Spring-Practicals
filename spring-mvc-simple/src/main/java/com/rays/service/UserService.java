@@ -40,7 +40,7 @@ public class UserService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-		public void delete(int id) {
+		public void delete(long id) {
 			dao.delete(id);
 		}
 		
