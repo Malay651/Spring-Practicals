@@ -4,6 +4,8 @@ import javax.validation.constraints.NotEmpty;
 
 import com.rays.common.BaseForm;
 
+import com.rays.common.BaseDTO;
+import com.rays.dto.RoleDTO;
 public class RoleForm extends BaseForm {
 
 	@NotEmpty(message = "name is required")
@@ -28,4 +30,13 @@ public class RoleForm extends BaseForm {
 		this.description = description;
 	}
 
+	@Override
+	public BaseDTO getDto() {
+		RoleDTO dto = new RoleDTO();
+		dto.setId(id);
+		dto.setName(name);
+		dto.setDescription(description);
+		return dto;
+	
+	}
 }

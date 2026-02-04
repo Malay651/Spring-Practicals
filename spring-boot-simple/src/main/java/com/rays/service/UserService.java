@@ -1,51 +1,66 @@
 package com.rays.service;
-
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rays.dao.RoleDAO;
-import com.rays.dto.RoleDTO;
+
+import com.rays.dao.UserDAO;
+
+import com.rays.dto.UserDTO;
 
 @Service
 @Transactional
-public class RoleService {
+public class UserService {
 
 	@Autowired
-	public RoleDAO roleDao;
+	public UserDAO UserDao;
+
+	public UserDTO authenticate(String login, String password) {
+
+		UserDTO dto =  UserDao.findByUniqueKey("loginId", login);
+
+		if (dto != null) {
+			if (dto.getPassword().equals(password)) {
+				return dto;
+			}
+		}
+		return null;
+	}
+
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public long add(RoleDTO dto) {
-		long pk = roleDao.add(dto);
+	public long add(UserDTO dto) {
+		long pk = UserDao.add(dto);
 		return pk;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void update(RoleDTO dto) {
-		roleDao.update(dto);
+	public void update(UserDTO dto) {
+		UserDao.update(dto);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void delete(long id) {
 		try {
-			RoleDTO dto = findById(id);
-			roleDao.delete(dto);
+			UserDTO dto = findById(id);
+			UserDao.delete(dto);
 		} catch (RuntimeException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
 	@Transactional(readOnly = true)
-	public RoleDTO findById(long pk) {
-		RoleDTO dto = roleDao.findByPk(pk);
+	public UserDTO findById(long pk) {
+		UserDTO dto = UserDao.findByPk(pk);
 		return dto;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public long save(RoleDTO dto) {
+	public long save(UserDTO dto) {
 		Long id = dto.getId();
 		if (id != null && id > 0) {
 			update(dto);
@@ -56,9 +71,9 @@ public class RoleService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<RoleDTO> search(RoleDTO dto, int pageNo ,int pageSize) {
+	public List<UserDTO> search(UserDTO dto, int pageNo ,int pageSize) {
 		
-			List<RoleDTO> list = roleDao.search(dto, pageNo, pageSize);
+			List<UserDTO> list = UserDao.search(dto, pageNo, pageSize);
 			return list;
 		
 	

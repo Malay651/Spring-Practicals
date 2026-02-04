@@ -16,46 +16,47 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rays.common.BaseCtl;
 import com.rays.common.ORSResponse;
 import com.rays.dto.RoleDTO;
-import com.rays.form.RoleForm;
+import com.rays.dto.UserDTO;
+
+import com.rays.form.UserForm;
 import com.rays.service.RoleService;
+import com.rays.service.UserService;
 
 @RestController
-@RequestMapping(value = "Role")
-public class RoleCtl extends BaseCtl {
+@RequestMapping(value = "User")
+public class UserCtl extends BaseCtl {
 
 	@Autowired
-	RoleService service;
-
+	UserService service;
+	
 	@PostMapping("save")
-	public ORSResponse save(@RequestBody @Valid RoleForm form, BindingResult bindingResult) {
-
-		ORSResponse res = new ORSResponse();
-
-		res = validate(bindingResult);
-
-		if (res.isSuccess() == false) {
+	public ORSResponse save(@RequestBody @Valid UserForm form, BindingResult bindingResult) {
+		
+		ORSResponse res = validate(bindingResult);
+		if (!res.isSuccess()) {
 			return res;
 		}
-
-		RoleDTO dto = new RoleDTO();
-
-		dto.setName(form.getName());
-		dto.setDescription(form.getDescription());
-
-		long i = service.add(dto);
-
-		if (i != 0) {
+		
+		UserDTO dto = (UserDTO) form.getDto();
+		
+	
+	   if (dto.getId() != null && dto.getId() > 0) {
+			service.update(dto);
+			res.addData(dto.getId());
+			res.addMessage("Data Updated Successfully..!!");
 			res.setSuccess(true);
-			res.addMessage("role added successfully");
-			res.addData(dto);
+		} else {
+			long pk = service.add(dto);
+			res.addData(pk);
+			res.addMessage("Data added Successfully..!!");
+			res.setSuccess(true);
 		}
-
 		return res;
-
+	
 	}
 
 	@PostMapping("update")
-	public ORSResponse update(@RequestBody @Valid RoleForm form, BindingResult bindingResult) {
+	public ORSResponse update(@RequestBody @Valid UserForm form, BindingResult bindingResult) {
 		ORSResponse res = new ORSResponse();
 
 		res = validate(bindingResult);
@@ -64,10 +65,7 @@ public class RoleCtl extends BaseCtl {
 			return res;
 		}
 
-		RoleDTO dto = new RoleDTO();
-		dto.setId(form.getId());
-		dto.setName(form.getName());
-		dto.setDescription(form.getDescription());
+       UserDTO dto =(UserDTO)form.getDto();
 
 		service.update(dto);
 
@@ -92,7 +90,7 @@ public class RoleCtl extends BaseCtl {
     @GetMapping("get/{id}")
     public ORSResponse get(@PathVariable long id) {
     	ORSResponse res = new ORSResponse();
-    RoleDTO dto =service.findById(id);
+    	UserDTO dto =service.findById(id);
     
     if (dto != null) {
     	res.setSuccess(true);
@@ -103,14 +101,14 @@ public class RoleCtl extends BaseCtl {
    }
    
     @GetMapping("search/{pageNo}")
-    public ORSResponse search(@RequestBody RoleForm form , @PathVariable int pageNo) {
+    public ORSResponse search(@RequestBody UserForm form , @PathVariable int pageNo) {
     	
     	ORSResponse res = new ORSResponse();
     	
-    	RoleDTO dto  = (RoleDTO)form.getDto();
+    	UserDTO dto  = (UserDTO)form.getDto();
     	
     	
-    	List<RoleDTO> list = service.search(dto , pageNo, 5);
+    	List<UserDTO> list = service.search(dto , pageNo, 5);
     	
     	if (list.size() == 0) {
 			res.addMessage("Result not found...!!!");
